@@ -17,7 +17,15 @@ public class TestController {
     @GetMapping("/")
     public List<RolePart> test() {
         var idList = List.of(1,2);
+        // A exception will be thrown
         return roleTmplRepository.findRoleInfoListByIdNotInAndAppId(idList, 3);
+    }
+
+    @GetMapping("/2")
+    public List<RolePart> test2() {
+        var idList = List.of(1,2);
+        // No exception
+        return roleTmplRepository.findRoleInfoListByIdNotIn(idList);
     }
 
 }
