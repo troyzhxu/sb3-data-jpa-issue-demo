@@ -19,7 +19,17 @@ public interface RoleTmplRepository extends CrudRepository<RoleTmpl, Integer> {
     List<RolePart> findRoleInfoListByIdNotInAndAppId(List<Integer> idList, int appId);
 
     /**
-     * not using find_in_set in sql, it works.
+     * not using 'new bp.web.user.model.RolePart(id, name, rkey)' in sql, it works.
+     */
+    @Query("""
+    from RoleTmpl
+    where find_in_set(:appId, appIds) is true and id not in (:idList) and deleted = false
+    """)
+    List<RoleTmpl> findAllByIdNotInAndAppId(List<Integer> idList, int appId);
+
+
+    /**
+     * not using find_in_set in sql, it works too.
      */
     @Query("""
     select new bp.web.user.model.RolePart(id, name, rkey) from RoleTmpl
